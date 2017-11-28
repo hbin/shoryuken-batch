@@ -1,26 +1,14 @@
-[gem]: https://rubygems.org/gems/sidekiq-batch
-[travis]: https://travis-ci.org/breamware/sidekiq-batch
-[codeclimate]: https://codeclimate.com/github/breamware/sidekiq-batch
+[gem]: https://rubygems.org/gems/shoryuken-batch
 
-# Sidekiq::Batch
+# Shoryuken::Batch [Bleeding Edge]
 
-[![Join the chat at https://gitter.im/breamware/sidekiq-batch](https://badges.gitter.im/breamware/sidekiq-batch.svg)](https://gitter.im/breamware/sidekiq-batch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![Gem Version](https://badge.fury.io/rb/sidekiq-batch.svg)][gem]
-[![Build Status](https://travis-ci.org/breamware/sidekiq-batch.svg?branch=master)][travis]
-[![Code Climate](https://codeclimate.com/github/breamware/sidekiq-batch/badges/gpa.svg)][codeclimate]
-[![Code Climate](https://codeclimate.com/github/breamware/sidekiq-batch/badges/coverage.svg)][codeclimate]
-[![Code Climate](https://codeclimate.com/github/breamware/sidekiq-batch/badges/issue_count.svg)][codeclimate]
-
-Simple Sidekiq Batch Job implementation.
+Simple Shoryuken Batch Job implementation. A forked of sidekiq-batch and integrate with Shoryuken.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-```ruby
-gem 'sidekiq-batch'
-```
+    gem 'shoryuken-batch'
 
 And then execute:
 
@@ -28,15 +16,11 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install sidekiq-batch
-
-## Usage
-
-Sidekiq Batch is drop-in replacement for the API from Sidekiq PRO. See https://github.com/mperham/sidekiq/wiki/Batches for usage.
+    $ gem install shoryuken-batch
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/breamware/sidekiq-batch.
+Bug reports and pull requests are welcome on GitHub at https://github.com/hbin/shoryuken-batch.
 
 
 ## License

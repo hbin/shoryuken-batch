@@ -2,19 +2,19 @@ require 'spec_helper'
 
 
 class WorkerA
-  include Sidekiq::Worker
+  include Shoryuken::Worker
   def perform
   end
 end
 
 class WorkerB
-  include Sidekiq::Worker
+  include Shoryuken::Worker
   def perform
   end
 end
 
 class WorkerC
-  include Sidekiq::Worker
+  include Shoryuken::Worker
   def perform
   end
 end
@@ -22,12 +22,12 @@ end
 
 describe 'Batch flow' do
   context 'when handling a batch' do
-    let(:batch) { Sidekiq::Batch.new }
+    let(:batch) { Shoryuken::Batch.new }
     before { batch.on(:complete, SampleCallback, :id => 42) }
     before { batch.description = 'describing the batch' }
-    let(:status) { Sidekiq::Batch::Status.new(batch.bid) }
+    let(:status) { Shoryuken::Batch::Status.new(batch.bid) }
     let(:jids) { batch.jobs do 3.times do TestWorker.perform_async end end }
-    let(:queue) { Sidekiq::Queue.new }
+    let(:queue) { Shoryuken::Queue.new }
 
     it 'correctly initializes' do
       expect(jids.size).to eq(3)
@@ -44,17 +44,17 @@ describe 'Batch flow' do
     end
 
     it 'handles an empty batch' do
-      batch = Sidekiq::Batch.new
+      batch = Shoryuken::Batch.new
       jids = batch.jobs do nil end
       expect(jids.size).to eq(0)
     end
   end
 
   context 'when handling a nested batch' do
-    let(:batchA) { Sidekiq::Batch.new }
-    let(:batchB) { Sidekiq::Batch.new }
-    let(:batchC) { Sidekiq::Batch.new(batchA.bid) }
-    let(:batchD) { Sidekiq::Batch.new }
+    let(:batchA) { Shoryuken::Batch.new }
+    let(:batchB) { Shoryuken::Batch.new }
+    let(:batchC) { Shoryuken::Batch.new(batchA.bid) }
+    let(:batchD) { Shoryuken::Batch.new }
     let(:jids) { [] }
     let(:parent) { batchA.bid }
     let(:children) { [] }
@@ -77,9 +77,9 @@ describe 'Batch flow' do
       end
 
       expect(jids.size).to eq(4)
-      expect(Sidekiq::Batch::Status.new(parent).child_count).to eq(2)
+      expect(Shoryuken::Batch::Status.new(parent).child_count).to eq(2)
       children.each do |kid|
-          status = Sidekiq::Batch::Status.new(kid)
+          status = Shoryuken::Batch::Status.new(kid)
           expect(status.child_count).to eq(0)
           expect(status.pending).to eq(1)
           expect(status.parent_bid).to eq(parent)

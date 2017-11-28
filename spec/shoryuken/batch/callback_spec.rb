@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Sidekiq::Batch::Callback::Worker do
+describe Shoryuken::Batch::Callback::Worker do
   describe '#perform' do
     it 'does not do anything if it cannot find the callback class' do
       subject.perform('SampleCallback', 'complete', {}, 'ABCD', 'EFGH')
@@ -20,7 +20,7 @@ describe Sidekiq::Batch::Callback::Worker do
       callback_instance = double('SampleCallback')
       expect(SampleCallback).to receive(:new).and_return(callback_instance)
       expect(callback_instance).to receive(:on_success)
-        .with(instance_of(Sidekiq::Batch::Status), {})
+        .with(instance_of(Shoryuken::Batch::Status), {})
       subject.perform('SampleCallback', 'success', {}, 'ABCD', 'EFGH')
     end
 
@@ -28,7 +28,7 @@ describe Sidekiq::Batch::Callback::Worker do
       callback_instance = double('SampleCallback')
       expect(SampleCallback).to receive(:new).and_return(callback_instance)
       expect(callback_instance).to receive(:on_complete)
-        .with(instance_of(Sidekiq::Batch::Status), {})
+        .with(instance_of(Shoryuken::Batch::Status), {})
       subject.perform('SampleCallback', 'complete', {}, 'ABCD', 'EFGH')
     end
 
@@ -36,7 +36,7 @@ describe Sidekiq::Batch::Callback::Worker do
       callback_instance = double('SampleCallback')
       expect(SampleCallback).to receive(:new).and_return(callback_instance)
       expect(callback_instance).to receive(:sample_method)
-        .with(instance_of(Sidekiq::Batch::Status), {})
+        .with(instance_of(Shoryuken::Batch::Status), {})
       subject.perform('SampleCallback#sample_method', 'complete', {}, 'ABCD', 'EFGH')
     end
   end

@@ -1,9 +1,9 @@
-require 'sidekiq/batch'
+require 'shoryuken/batch'
 
-Sidekiq.redis { |r| r.flushdb }
+Shoryuken.redis { |r| r.flushdb }
 
 class AnotherWorker
-  include Sidekiq::Worker
+  include Shoryuken::Worker
 
   def perform
     sleep 10
@@ -11,7 +11,7 @@ class AnotherWorker
 end
 
 class TestWorker
-  include Sidekiq::Worker
+  include Shoryuken::Worker
 
   def perform
     sleep 1
@@ -34,7 +34,7 @@ class MyCallback
   end
 end
 
-batch = Sidekiq::Batch.new
+batch = Shoryuken::Batch.new
 batch.description = 'Test batch'
 batch.callback_queue = :default
 batch.on(:success, 'MyCallback#on_success', to: 'success@gmail.com')
@@ -46,12 +46,12 @@ batch.jobs do
     TestWorker.perform_async
   end
 end
-puts Sidekiq::Batch::Status.new(batch.bid).data
+puts Shoryuken::Batch::Status.new(batch.bid).data
 
 Thread.new do
   loop do
     sleep 1
-    keys = Sidekiq.redis { |r| r.keys('BID-*') }
+    keys = Shoryuken.redis { |r| r.keys('BID-*') }
     puts keys.inspect
   end
 end
